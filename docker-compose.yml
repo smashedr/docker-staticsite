@@ -3,7 +3,7 @@ version: '3.8'
 services:
   nginx:
     build: ./nginx
-    image: shane-staticsite:latest
+    image: shane-static-site:latest
     env_file: settings.env
     deploy:
       replicas: 1
@@ -17,8 +17,25 @@ services:
     ports:
       - "443:443"
 
+  ftpd_server:
+    image: stilliard/pure-ftpd
+    env_file: settings.env
+    deploy:
+      replicas: 1
+    volumes:
+      - data_dir:/data
+    ports:
+      - "21:21"
+      - "30000-30009:30000-30009"
+    environment:
+      FTP_USER_HOME: /data/html
+      # PUBLICHOST: "localhost"
+
   php-fpm:
     image: php:7.2-fpm-alpine
+    env_file: settings.env
+    deploy:
+      replicas: 1
     volumes:
       - data_dir:/data
     ports:

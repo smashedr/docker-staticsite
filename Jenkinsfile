@@ -57,12 +57,14 @@ pipeline {
                 ENV_FILE = "deploy-configs/services/${SERVICE_NAME}/dev.env"
                 STACK_NAME = "dev_${BASE_NAME}"
                 DOCKER_PORT = "${DEV_PORT}"
+                FTP_PORT = "${DEV_PORT2}"
                 NFS_DIRECTORY = "${NFS_BASE}/${STACK_NAME}"
             }
             steps {
                 echo "\n--- Starting Dev Deploy ---\n" +
                         "STACK_NAME:    ${STACK_NAME}\n" +
                         "DOCKER_PORT:   ${DOCKER_PORT}\n" +
+                        "FTP_PORT:      ${FTP_PORT}\n" +
                         "NFS_HOST:      ${NFS_HOST}\n" +
                         "NFS_DIRECTORY: ${NFS_DIRECTORY}\n" +
                         "ENV_FILE:      ${ENV_FILE}\n"
@@ -84,12 +86,14 @@ pipeline {
                 ENV_FILE = "deploy-configs/services/${SERVICE_NAME}/prod.env"
                 STACK_NAME = "prod_${BASE_NAME}"
                 DOCKER_PORT = "${PROD_PORT}"
+                FTP_PORT = "${PROD_PORT2}"
                 NFS_DIRECTORY = "${STACK_NAME}"
             }
             steps {
                 echo "\n--- Starting Prod Deploy ---\n" +
                         "STACK_NAME:    ${STACK_NAME}\n" +
                         "DOCKER_PORT:   ${DOCKER_PORT}\n" +
+                        "FTP_PORT:      ${FTP_PORT}\n" +
                         "NFS_HOST:      ${NFS_HOST}\n" +
                         "NFS_DIRECTORY: ${NFS_DIRECTORY}\n" +
                         "ENV_FILE:      ${ENV_FILE}\n"
