@@ -12,9 +12,11 @@ pipeline {
     }
     environment {
         DEV_PORT     = '10101'
-        DEV_PORT2    = '10102'
+        DEV_FTP      = '10102'
+        DEV_PASSIVE  = '13100-13109'
         PROD_PORT    = '10103'
-        PROD_PORT2   = '10104'
+        PROD_FTP     = '10104'
+        PROD_PASSIVE = '13110-13119'
         DISCORD_ID   = "smashed-alerts"
         COMPOSE_FILE = "docker-compose-swarm.yml"
 
@@ -57,7 +59,8 @@ pipeline {
                 ENV_FILE = "deploy-configs/services/${SERVICE_NAME}/dev.env"
                 STACK_NAME = "dev_${BASE_NAME}"
                 DOCKER_PORT = "${DEV_PORT}"
-                FTP_PORT = "${DEV_PORT2}"
+                FTP_PORT = "${DEV_FTP}"
+                FTP_PASV = "${DEV_PASSIVE}"
                 NFS_DIRECTORY = "${NFS_BASE}/${STACK_NAME}"
             }
             steps {
@@ -65,6 +68,7 @@ pipeline {
                         "STACK_NAME:    ${STACK_NAME}\n" +
                         "DOCKER_PORT:   ${DOCKER_PORT}\n" +
                         "FTP_PORT:      ${FTP_PORT}\n" +
+                        "FTP_PASV:      ${FTP_PASV}\n" +
                         "NFS_HOST:      ${NFS_HOST}\n" +
                         "NFS_DIRECTORY: ${NFS_DIRECTORY}\n" +
                         "ENV_FILE:      ${ENV_FILE}\n"
@@ -86,7 +90,8 @@ pipeline {
                 ENV_FILE = "deploy-configs/services/${SERVICE_NAME}/prod.env"
                 STACK_NAME = "prod_${BASE_NAME}"
                 DOCKER_PORT = "${PROD_PORT}"
-                FTP_PORT = "${PROD_PORT2}"
+                FTP_PORT = "${PROD_FTP}"
+                FTP_PASV = "${PROD_PASSIVE}"
                 NFS_DIRECTORY = "${STACK_NAME}"
             }
             steps {
@@ -94,6 +99,7 @@ pipeline {
                         "STACK_NAME:    ${STACK_NAME}\n" +
                         "DOCKER_PORT:   ${DOCKER_PORT}\n" +
                         "FTP_PORT:      ${FTP_PORT}\n" +
+                        "FTP_PASV:      ${FTP_PASV}\n" +
                         "NFS_HOST:      ${NFS_HOST}\n" +
                         "NFS_DIRECTORY: ${NFS_DIRECTORY}\n" +
                         "ENV_FILE:      ${ENV_FILE}\n"

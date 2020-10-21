@@ -19,27 +19,25 @@ services:
 
   ftpd_server:
     image: stilliard/pure-ftpd
-    env_file: settings.env
+    env_file: ${ENV_FILE}
     deploy:
       replicas: 1
     volumes:
       - data_dir:/data
     ports:
       - "${FTP_PORT}:21"
-      - "${DOCKER_PASSIVE_PORTS}:${DOCKER_PASSIVE_PORTS}"
+      - "${FTP_PASV}:${FTP_PASV}"
     environment:
       FTP_USER_HOME: /data/html
       # PUBLICHOST: "localhost"
 
   php-fpm:
     image: php:7.2-fpm-alpine
-    env_file: settings.env
+    env_file: ${ENV_FILE}
     deploy:
       replicas: 1
     volumes:
       - data_dir:/data
-    ports:
-      - 9000:9000
 
 secrets:
   cssnr.com.crt:
@@ -53,4 +51,4 @@ volumes:
     driver_opts:
       type: nfs
       o: "addr=${NFS_HOST},rw"
-      device: ":/data/docker/${NFS_DIRECTORY}"
+      device: ":${NFS_DIRECTORY}"

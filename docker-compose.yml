@@ -38,8 +38,6 @@ services:
       replicas: 1
     volumes:
       - data_dir:/data
-    ports:
-      - 9000:9000
 
 secrets:
   cssnr.com.crt:
