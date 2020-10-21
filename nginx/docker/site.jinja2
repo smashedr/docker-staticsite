@@ -6,7 +6,10 @@ server {
     ssl_certificate      /etc/ssl/cssnr.com.crt;
     ssl_certificate_key  /etc/ssl/cssnr.com.key;
 
-    location / { root /data/html/{{ site.name }}; }
+    location / {
+        root /data/html/{{ site.name }};
+        index index.html index.php;
+    }
 
     location ~ \.php(/|$) {
         include       fastcgi_params;
