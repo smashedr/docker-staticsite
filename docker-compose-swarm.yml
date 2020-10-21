@@ -3,7 +3,7 @@ version: '3.8'
 services:
   nginx:
     build: ./nginx
-    image: harbor01.cssnr.com/shane/static-site-nginx:${VERSION}
+    image: registry.hosted-domains.com/shane/static-site-nginx:${VERSION}
     env_file: ${ENV_FILE}
     deploy:
       replicas: 1
@@ -29,7 +29,6 @@ services:
       - "${FTP_PASV}:${FTP_PASV}"
     environment:
       FTP_USER_HOME: /data/html
-      # PUBLICHOST: "localhost"
 
   php-fpm:
     image: php:7.2-fpm-alpine

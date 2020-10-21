@@ -29,7 +29,6 @@ services:
       - "30000-30009:30000-30009"
     environment:
       FTP_USER_HOME: /data/html
-      # PUBLICHOST: "localhost"
 
   php-fpm:
     image: php:7.2-fpm-alpine
