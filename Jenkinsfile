@@ -92,7 +92,7 @@ pipeline {
                 DOCKER_PORT = "${PROD_PORT}"
                 FTP_PORT = "${PROD_FTP}"
                 FTP_PASV = "${PROD_PASSIVE}"
-                NFS_DIRECTORY = "${STACK_NAME}"
+                NFS_DIRECTORY = "${NFS_BASE}/${STACK_NAME}"
             }
             steps {
                 echo "\n--- Starting Prod Deploy ---\n" +
