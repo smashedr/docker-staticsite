@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  nginx:
+    build: ./nginx
+    image: shane-staticsite:latest
+    env_file: settings.env
+    deploy:
+      replicas: 1
+    volumes:
+      - data_dir:/data
+    secrets:
+      - source: cssnr.com.crt
+        target: /etc/ssl/cssnr.com.crt
+      - source: cssnr.com.key
+        target: /etc/ssl/cssnr.com.key
+    ports:
+      - "443:443"
+
+  php-fpm:
+    image: php:7.2-fpm-alpine
+    volumes:
+      - data_dir:/data
+    ports:
+      - 9000:9000
+
+secrets:
+  cssnr.com.crt:
+    file: /etc/ssl/cssnr.com.crt
+  cssnr.com.key:
+    file: /etc/ssl/cssnr.com.key
+
+volumes:
+  data_dir:

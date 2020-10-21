@@ -1,0 +1,17 @@
+server {
+    listen       443 ssl {{ site.default }};
+
+    server_name  {{ site.vhost }};
+
+    ssl_certificate      /etc/ssl/cssnr.com.crt;
+    ssl_certificate_key  /etc/ssl/cssnr.com.key;
+
+    location / { root /data/html/{{ site.name }}; }
+
+    location ~ \.php(/|$) {
+        include       fastcgi_params;
+        fastcgi_param DOCUMENT_ROOT   /data/html/{{ site.name }};
+        fastcgi_param SCRIPT_FILENAME /data/html/{{ site.name }}/$fastcgi_script_name;
+        fastcgi_pass  php-fpm:9000;
+    }
+}
