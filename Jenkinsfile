@@ -104,7 +104,7 @@ pipeline {
                         "NFS_DIRECTORY: ${NFS_DIRECTORY}\n" +
                         "ENV_FILE:      ${ENV_FILE}\n"
                 sendDiscord("${DISCORD_ID}", "Prod Deploy Started")
-                setupNfs("${STACK_NAME}")
+                setupOvhNfs("${STACK_NAME}")
                 stackPush("${COMPOSE_FILE}")
                 stackDeploy("${COMPOSE_FILE}", "${STACK_NAME}")
                 sendDiscord("${DISCORD_ID}", "Prod Deploy Finished")
