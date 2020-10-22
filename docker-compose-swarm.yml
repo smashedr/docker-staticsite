@@ -17,18 +17,29 @@ services:
     ports:
       - "${DOCKER_PORT}:443"
 
-  ftpd_server:
-    image: stilliard/pure-ftpd
+  bash-sftp:
+    image: registry.hosted-domains.com/public/bash-sftp:latest
     env_file: ${ENV_FILE}
     deploy:
       replicas: 1
     volumes:
       - data_dir:/data
     ports:
-      - "${FTP_PORT}:21"
-      - "${FTP_PASV}:${FTP_PASV}"
-    environment:
-      FTP_USER_HOME: /data/html
+      - "${FTP_PORT}:2222"
+
+#  ftpd_server:
+#    image: stilliard/pure-ftpd
+#    env_file: ${ENV_FILE}
+#    deploy:
+#      replicas: 1
+#    volumes:
+#      - data_dir:/data
+#    ports:
+#      - "${FTP_PORT}:21"
+#      - "${FTP_PASV}:${FTP_PASV}"
+#    environment:
+#      FTP_USER_HOME: /data/html
+#      PUBLICHOST: "swarm.hosted-domains.com"
 
   php-fpm:
     image: php:7.2-fpm-alpine

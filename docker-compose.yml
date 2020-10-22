@@ -17,18 +17,29 @@ services:
     ports:
       - "443:443"
 
-  ftpd_server:
-    image: stilliard/pure-ftpd
+  bash-sftp:
+    image: registry.hosted-domains.com/public/bash-sftp:latest
     env_file: settings.env
     deploy:
       replicas: 1
     volumes:
       - data_dir:/data
     ports:
-      - "21:21"
-      - "30000-30009:30000-30009"
-    environment:
-      FTP_USER_HOME: /data/html
+      - "2222:2222"
+
+#  ftpd_server:
+#    image: stilliard/pure-ftpd
+#    env_file: settings.env
+#    deploy:
+#      replicas: 1
+#    volumes:
+#      - data_dir:/data
+#    ports:
+#      - "21:21"
+#      - "30000-30009:30000-30009"
+#    environment:
+#      FTP_USER_HOME: /data/html
+#      PUBLICHOST: "localhost"
 
   php-fpm:
     image: php:7.2-fpm-alpine
