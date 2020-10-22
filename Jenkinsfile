@@ -13,10 +13,8 @@ pipeline {
     environment {
         DEV_PORT     = '10101'
         DEV_FTP      = '10102'
-        DEV_PASSIVE  = '13100-13109'
         PROD_PORT    = '10103'
         PROD_FTP     = '10104'
-        PROD_PASSIVE = '13110-13119'
         DISCORD_ID   = "smashed-alerts"
         COMPOSE_FILE = "docker-compose-swarm.yml"
 
