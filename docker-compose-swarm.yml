@@ -24,6 +24,7 @@ services:
       replicas: 1
     volumes:
       - data_dir:/data
+      - ssh_dir:/etc/ssh
     ports:
       - "${FTP_PORT}:2222"
 
@@ -56,6 +57,7 @@ secrets:
     external: true
 
 volumes:
+  ssh_dir:
   data_dir:
     driver: local
     driver_opts:

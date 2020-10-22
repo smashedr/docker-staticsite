@@ -24,6 +24,7 @@ services:
       replicas: 1
     volumes:
       - data_dir:/data
+      - ssh_dir:/etc/ssh
     ports:
       - "2222:2222"
 
@@ -56,4 +57,5 @@ secrets:
     file: /etc/ssl/cssnr.com.key
 
 volumes:
+  ssh_dir:
   data_dir:
