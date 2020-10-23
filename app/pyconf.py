@@ -17,13 +17,15 @@ def get_sites():
 
 
 def setup_dirs(site, default=False):
+    print('Setting up directory for site:', site)
     data_dir = os.environ.get('SFTP_HOME').rstrip('/')
     dest = '{}/html/{}'.format(data_dir, site)
     if not os.path.isdir(dest):
-        os.makedirs(dest, exist_ok=True)
+        print('Creating directory:', dest)
         if default:
             print('Copying default site to:', dest)
             shutil.copytree('html/default', dest)
+        os.makedirs(dest, exist_ok=True)
 
 
 def render_template(site, default=False):
