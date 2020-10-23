@@ -3,8 +3,8 @@ server {
 
     server_name  {{ site.vhost }};
 
-    ssl_certificate      /etc/ssl/cssnr.com.crt;
-    ssl_certificate_key  /etc/ssl/cssnr.com.key;
+    ssl_certificate      /ssl/ssl.crt;
+    ssl_certificate_key  /ssl/ssl.key;
 
     location / {
         root /data/html/{{ site.name }};
