@@ -1,19 +1,19 @@
 FROM nginx:stable-alpine
-ENV TZ=America/Los_Angeles
 
 RUN apk add --no-cache \
     bash \
+    openssl \
     py3-pip \
     python3 \
     rsync
 
 RUN mkdir -p /etc/nginx/conf.d
-COPY docker/nginx.conf /etc/nginx/nginx.conf
+COPY app/nginx.conf /etc/nginx/nginx.conf
 
-WORKDIR /docker
-COPY docker /docker
-COPY html /docker/html
+WORKDIR /app
+COPY app /app
+COPY html /app/html
 
 RUN python3 -m pip install -r requirements.txt
 
-ENTRYPOINT ["sh", "docker-entrypoint.sh"]
+ENTRYPOINT ["bash", "docker-entrypoint.sh"]

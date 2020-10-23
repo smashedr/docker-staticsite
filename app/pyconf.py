@@ -1,26 +1,7 @@
 #!/usr/bin/env python3
 import os
-import subprocess
+import shutil
 from jinja2 import Environment, FileSystemLoader
-
-
-def run_command(command, raise_exception=True):
-    try:
-        command = command.split() if isinstance(command, str) else command
-        return subprocess.run(
-            command, stdout=subprocess.PIPE, stderr=subprocess.PIPE
-        )
-    except Exception as error:
-        if raise_exception:
-            raise error
-        return error
-
-
-def do_rsync(src, dest):
-    print('Syncing static for:', src)
-    cmd = ['rsync', '-avPh', src, dest]
-    r = run_command(cmd)
-    print(r)
 
 
 def get_sites():
@@ -33,6 +14,16 @@ def get_sites():
         if key.startswith('WWW_'):
             sites.append(os.getenv(key))
     return sites
+
+
+def setup_dirs(site, default=False):
+    data_dir = os.environ.get('SFTP_HOME').rstrip('/')
+    dest = '{}/html/{}'.format(data_dir, site)
+    if not os.path.isdir(dest):
+        os.makedirs(dest, exist_ok=True)
+        if default:
+            print('Copying default site to:', dest)
+            shutil.copytree('html/default', dest)
 
 
 def render_template(site, default=False):
@@ -55,28 +46,14 @@ def render_template(site, default=False):
         f.write(output)
 
 
-def copy_static(site, default=False):
-    site = site.split()[0]
-    source = 'html/%s/' % site
-    if os.path.isdir(source):
-        do_rsync(source, '/data/html/%s' % site)
-    elif default:
-        do_rsync('html/default/', '/data/html/%s' % site)
-    else:
-        try:
-            os.mkdir('/data/html/%s/' % site)
-        except FileExistsError:
-            pass
-
-
 if __name__ == '__main__':
     print('Initializing pyconf...')
     sites = get_sites()
     for idx, site in enumerate(sites):
         if idx == 0:
             render_template(site, default=True)
-            copy_static(site, default=True)
+            setup_dirs(site, default=True)
         else:
             render_template(site)
-            copy_static(site)
+            setup_dirs(site)
     print('Done rendering templates.')
