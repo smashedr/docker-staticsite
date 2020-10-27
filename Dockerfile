@@ -4,16 +4,14 @@ RUN apk add --no-cache \
     bash \
     openssl \
     py3-pip \
-    python3 \
-    rsync
-
-RUN mkdir -p /etc/nginx/conf.d
-COPY app/nginx.conf /etc/nginx/nginx.conf
+    python3
 
 WORKDIR /app
+
+COPY app/requirements.txt .
+RUN python3 -m pip install -r requirements.txt
+
 COPY app /app
 COPY html /app/html
-
-RUN python3 -m pip install -r requirements.txt
 
 ENTRYPOINT ["bash", "docker-entrypoint.sh"]

@@ -1,0 +1,46 @@
+worker_processes  2;
+
+error_log  /dev/stderr  warn;
+
+events { worker_connections  1024; }
+
+http {
+    sendfile      on;
+    include       /etc/nginx/mime.types;
+    default_type  application/octet-stream;
+
+    log_format main '$remote_addr - $remote_user [$time_local] "$request" '
+                  '$status $body_bytes_sent "$http_referer" '
+                  '"$http_user_agent" "$http_x_forwarded_for"';
+
+    access_log  /dev/stdout  main;
+
+    server {
+        listen       80 default_server;
+        location / {
+          proxy_set_header   Host $host;
+          proxy_set_header   X-Real-IP $remote_addr;
+          proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
+          proxy_pass         https://localhost;
+        }
+    }
+
+    server {
+        listen       443 ssl default_server;
+
+        ssl_certificate      {{ conf.ssl_crt }};
+        ssl_certificate_key  {{ conf.ssl_key }};
+
+        location / {
+            root {{ conf.html_root }};
+            index {{ conf.html_index }};
+        }
+
+        location ~ \.php(/|$) {
+            include       fastcgi_params;
+            fastcgi_param DOCUMENT_ROOT   {{ conf.html_root }};
+            fastcgi_param SCRIPT_FILENAME {{ conf.html_root }}/$fastcgi_script_name;
+            fastcgi_pass  php-fpm:9000;
+        }
+    }
+}
