@@ -9,7 +9,7 @@ if [ -f /ssl/ssl.crt ] && [ -f /ssl/ssl.key ]; then
 fi
 
 rm -rf /ssl/ssl.*
-[[ ! -d /ssl ]] && mkdir /ssl
+[[ ! -d /ssl ]] && mkdir -p /ssl
 
 subj="
 C=US
